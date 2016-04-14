@@ -1,28 +1,44 @@
 // Import Fathym library
+#include "Fathym-io.h"
 #include "FathymBuild.h"
-#include "Fathym/Fathym.h"
 
-// Declare Fathym singleton instance
-Fathym Fathym("server", "vhost:username", "password");
+// Create an instance of the Fathym API
+Fathym fathym;
 
 void setup() {
-  // Connect to AMQP broker via underlying MQTT layer/plugin
-  Fathym.connect();
+  // Uncomment t
+  //Serial.begin(57600);
+  //delay(2000); // waiting a little bit after Serial.begin() seems to help the serial monitor catch
+
+  //= Initialize Sensors ================================================================/
+
+  // Initialize your sensors here
+  // ----------------------------
+
+  //= End Initialize Sensors ============================================================/
+
+  // Setup Fathym and connect to the messaging service
+  fathym.setup();
 }
 
 void loop() {
-  // Update Fathym connection
-  Fathym.beginUpdate();
+  // Start a Fathym update cycle
+  fathym.beginUpdate();
 
-  // Set the JSON/sensor values to publish
-  Fathym.setValue("lat", 39.978369);
-  Fathym.setValue("long", -105.274364);
-  Fathym.setValue("testInt", random(10, 4096));
-  Fathym.setValue("testFloat",  (float)random(1, 100) / 1.5);
-  Fathym.setValue("testBool", true);
-  Fathym.setValue("intWithUnits", random(0, 120), "v");
-  Fathym.setValue("floatWithUnits", (float)random(1, 10000) / 3.5, "m/s");
+  // Set your variables you want to publish below
+  // --------------------------------------------
 
-  // Publish the latest values to Fathym
-  Fathym.endUpdate();
+  // Uncomment below if you want to add a fixed lattitude/longitude location
+  /*fathym.set("lat", 40.014688);,
+  fathym.set("long", -105.258421);*/
+
+  // Set some random test values to publish
+  fathym.set("testInt", random(10, 4096));
+  fathym.set("testFloat",  (float)random(1, 100) / 1.5);
+  fathym.set("testBool", true);
+  fathym.set("intWithUnits", random(0, 120), "v");
+  fathym.set("floatWithUnits", (float)random(1, 10000) / 3.5, "m/s");
+
+  // End the update cycle and publish the latest values to Fathym
+  fathym.endUpdate();
 }
