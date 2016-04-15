@@ -31,7 +31,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "../FathymBuild.h"
 
 // Standard Photon library
-#include "application.h"
+//#include "application.h"
 
 // MQTT library used for underlying message broker communication
 #include "MQTT.h"
